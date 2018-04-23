@@ -36,7 +36,7 @@ int main(int argc, char const *argv[]) {
 
       case '2':
       puts("=== Génération ===");
-      generate_object_randomly(0,n);
+      generate_object_randomly(0,100,n);
       break;
 
       case '0':
