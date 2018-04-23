@@ -3,7 +3,7 @@ CFLAGS= -Wall -Wextra -g -O2
 LDFLAG= -lm
 SRCS = $(wildcard *.c)
 OBJS = $(SRCS:.c=.o)
-PROGS = $(SRCS)
+PROGS = $(AOUT)
 AOUT = main
 
 all : $(PROGS)
@@ -17,5 +17,5 @@ main : $(OBJS)
 clean:
 	rm -f *.o
 
-proper:
+proper: clean
 	rm -f $(AOUT)

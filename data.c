@@ -27,7 +27,7 @@ Object* generate_object_randomly(int a, int b){
  * of the interval values
  */
 
-double generate_bag_capacity(Object* t, int ALPHA){
+double generate_bag_capacity(Object* t){
   double sum = 0;
   for (int i = 0; i < SIZE; i++) {
     sum += t[i].size * ALPHA;
