@@ -6,7 +6,7 @@ OBJS = $(SRCS:.c=.o)
 PROGS = $(AOUT)
 AOUT = main
 
-all : $(PROGS)
+all : $(PROGS) clean
 
 main : $(OBJS)
 	$(CC) $(LDFLAGS) -o $@ $^
