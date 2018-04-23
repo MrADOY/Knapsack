@@ -36,7 +36,6 @@ double generate_bag_capacity(Object* t){
 }
 
 int count_sum(int** tab, Object* t, int size){
-  int size = 0;
   int cost = 0;
   int costTabFin = 0;
   int** tabFin = [][];
