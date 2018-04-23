@@ -3,24 +3,34 @@
 #include <time.h>
 #include "data.h"
 
-Object* generate_tab_randomly(int a,int b, int size_){
+/*
+ * This function create tab which contains object
+ * an object is an item which is characterized by size and cost
+ */
+
+Object* generate_object_randomly(int a, int b){
   srand(time(NULL));
   Object* t = NULL;
-  t = (Object*)malloc(size_ * sizeof(Object));
+  t = (Object*)malloc(SIZE * sizeof(Object));
   if(!t){
     perror("Allocation error");
   }
-  for (int i = 0; i < size_; i++) {
+  for (int i = 0; i < SIZE; i++) {
     t[i].size = ((double)rand()/RAND_MAX) * (b - a) + a;
     t[i].cost = ((double)rand()/RAND_MAX) * (b - a) + a;
   }
   return t;
 }
 
-double generate_bag_capacity(Object* t,int size_,int alpha){
+/*
+ * This function returns the bag capacity which depends
+ * of the interval values
+ */
+
+double generate_bag_capacity(Object* t, int ALPHA){
   double sum = 0;
-  for (int i = 0; i < size_; i++) {
-    sum += t[i].size * alpha;
+  for (int i = 0; i < SIZE; i++) {
+    sum += t[i].size * ALPHA;
   }
   return sum;
 }
