@@ -1,7 +1,7 @@
 #ifndef __DATA_H__
 #define __DATA_H__
 
-#define SIZE 10000
+#define ALPHA 0.50
 
 /*
  * Object that will be put in the bag
@@ -17,19 +17,17 @@ typedef struct {
  * an object is an item which is characterized by size and cost
  */
 
-Object* generate_object_randomly(int a, int b);
+Object* generate_object_randomly(int a, int b, int size_);
 
 /*
  * This function returns the bag capacity which depends
  * of the interval values
  */
 
-double generate_bag_capacity(Object* t);
+double generate_bag_capacity(Object* t, int size_);
 
 /*
  * Useful to know bag capacity
  */
-
-const double ALPHA = 0.50;
 
 #endif
