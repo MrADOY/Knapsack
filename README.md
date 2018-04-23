@@ -1,4 +1,4 @@
-### Algororithm for solve Knapsack problem implemented in C
+### Algorithm to solve Knapsack problem implemented in C
 
 As part of our courses, we had to implement an algorithm to find a solution (not optimal) to the Knapsack Problem
 
