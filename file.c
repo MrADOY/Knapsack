@@ -4,6 +4,9 @@
 #include <string.h>
 #include "data.h"
 
+/*
+  Save random values in file path
+*/
 void  save_file(char *path, Object* tab, int size){
 
   FILE *fd = NULL;
@@ -17,6 +20,9 @@ void  save_file(char *path, Object* tab, int size){
   }
 }
 
+/*
+  Load values for file path in t
+*/
 int load_file(char *path, Object *t){
 
   char str[128];

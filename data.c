@@ -35,23 +35,22 @@ double generate_bag_capacity(Object* t, int size_){
   return sum;
 }
 
-int count_sum(int** tab, Object* t, int size){
-  int cost = 0;
-  int costTabFin = 0;
-  int** tabFin = [][];
+int find_best_sum(int** tab, Object* t, int size, int max_size){
+  int actualcost = 0;
+  int actualsize = 0;
+  int bestcost = 0;
+  int index=0;
 
   for(int i = 0; i < size; i++){
     for(int j = 0; j < size; j++){
-      index = tab[i][j];
-      size = size + t[index].size;
-      cost = cost + t[index].cost;
+      actualcost += t[tab[i][j]].cost;
+      actualsize += t[tab[i][j]].size;
     }
-    if(size <= max_size){
-      if(t[index].cost > costTabFin){
-        tabFin = index;
-        costTabFin = t[index].cost;
+    if(actualsize <= max_size){
+      if(actualcost > bestcost){
+        index = i;
       }
     }
   }
-  return tabFin;
+  return index;
 }
