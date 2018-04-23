@@ -17,5 +17,5 @@ main : $(OBJS)
 clean:
 	rm -f *.o
 
-proper:
+proper: clean
 	rm -f $(AOUT)
