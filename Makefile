@@ -3,7 +3,7 @@ CFLAGS= -Wall -Wextra -g -O2
 LDFLAG= -lm
 SRCS = $(wildcard *.c)
 OBJS = $(SRCS:.c=.o)
-PROGS = $(patsubst %.c,%,$(SRCS))
+PROGS = $(SRCS)
 AOUT = main
 
 all : $(PROGS)
@@ -15,10 +15,7 @@ main : $(OBJS)
 	$(CC) $(CFLAGS) -o $@ -c $<
 
 clean:
-	rm -f *.o *.csv
+	rm -f *.o
 
 proper:
-	rm -f $(PROGS)
-
-replace:
-	sed -i 's/\./,/g' *.csv
+	rm -f $(AOUT)
