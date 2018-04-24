@@ -8,7 +8,7 @@
 
 int main(int argc, char const *argv[]) {
   printf("Le fichier %s a été compilé le %s à %s\n", __FILE__, __DATE__, __TIME__);
-  int sortie=0, n=0, poids=0, best_combinaison=0;
+  int sortie=0, n=0, poids=0, best_combinaison=0, total_poids_meilleur=0, total_cout_meilleur=0;
   char menu1;
   int **tab = NULL;
   Object *tab_obj = NULL;
@@ -43,6 +43,10 @@ int main(int argc, char const *argv[]) {
       puts("=== Variables ===");
       printf("Nombre total d'objets : %d\n", n);
       printf("Capacité du sac : %d\n", poids);
+      if (total_poids_meilleur>0) {
+        printf("Capacité restant dans le sac : %d\n", poids-total_poids_meilleur);
+        printf("Cout total des objets dans le sac : %d\n", total_cout_meilleur);
+      }
       puts("=== Fin de l'affichage ===");
       break;
 
@@ -58,9 +62,13 @@ int main(int argc, char const *argv[]) {
 
         int j=0;
         puts("=== Meilleure combinaison ===");
+        total_poids_meilleur=0;
+        total_cout_meilleur=0;
+        printf("POIDS | PRIX\n");
         while (tab[best_combinaison][j] != -1) {
-          printf("POIDS | PRIX\n");
           printf("%d | %d\n", tab_obj[tab[best_combinaison][j]].size, tab_obj[tab[best_combinaison][j]].cost);
+          total_poids_meilleur+=tab_obj[tab[best_combinaison][j]].size;
+          total_cout_meilleur+=tab_obj[tab[best_combinaison][j]].cost;
           j++;
         }
       }
