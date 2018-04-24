@@ -42,9 +42,11 @@ int find_best_sum(int** tab, Object* t, int size, int max_size){
   int index=0;
 
   for(int i = 0; i < size; i++){
-    for(int j = 0; j < size; j++){
+    int j = 0;
+    while (t[tab[i][j]] != -1){
       actualcost += t[tab[i][j]].cost;
       actualsize += t[tab[i][j]].size;
+      j++;
     }
     if(actualsize <= max_size){
       if(actualcost > bestcost){
