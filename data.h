@@ -30,4 +30,5 @@ double generate_bag_capacity(Object* t, int size_);
  * Useful to know bag capacity
  */
 
+int find_best_sum(int** tab, Object* t, int size, int max_size);
 #endif
