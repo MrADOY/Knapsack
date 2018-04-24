@@ -2,7 +2,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
+#include "data.h"
+#include "display.h"
 
 int main(int argc, char const *argv[]) {
   printf("Le fichier %s a été compilé le %s à %s\n", __FILE__, __DATE__, __TIME__);
