@@ -35,7 +35,7 @@ int main(int argc, char const *argv[]) {
       tab = generate_combinaisons(n);
       tab_obj=generate_object_randomly(10,100,n);
       poids=generate_bag_capacity(tab_obj,n);
-      best_combinaison=find_best_sum(tab,tab_obj,n,poids);
+      best_combinaison=find_best_sum(tab,tab_obj,(1 << n)-1,poids);
       puts("=== Objets générés ===");
       break;
 
@@ -48,19 +48,19 @@ int main(int argc, char const *argv[]) {
 
       case '3':
       if (tab != NULL) {
-        // puts("=== Combinaisons ===");
-        // print_tab(tab,n);
         int i=0;
         puts("=== Objets ===");
+        printf("POIDS | PRIX\n");
         while (i < n) {
-          printf("%d / %d\n", tab_obj[i].size, tab_obj[i].cost);
+          printf("%d | %d\n", tab_obj[i].size, tab_obj[i].cost);
           i++;
         }
 
         int j=0;
         puts("=== Meilleure combinaison ===");
         while (tab[best_combinaison][j] != -1) {
-          printf("%d / %d\n", tab_obj[tab[best_combinaison][j]].size, tab_obj[tab[best_combinaison][j]].cost);
+          printf("POIDS | PRIX\n");
+          printf("%d | %d\n", tab_obj[tab[best_combinaison][j]].size, tab_obj[tab[best_combinaison][j]].cost);
           j++;
         }
       }
