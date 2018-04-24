@@ -22,17 +22,31 @@ int main(int argc, char const *argv[]) {
   while(sortie==0) {
     puts("");
     puts("=== Menu ===");
-    puts("1 - Voir les variables");
-    puts("2 - Générer les objets");
+    puts("1 - Générer les objets");
+    puts("2 - Voir les variables");
+    puts("3 - Voir les tableaux");
     puts("0 - Quitter");
     puts("\nEntrez votre choix : ");
     scanf(" %c",&menu1);
     puts("");
     switch(menu1) {
       case '1':
+      puts("=== Génération ===");
+      tab = generate_combinaisons(n);
+      tab_obj=generate_object_randomly(10,100,n);
+      poids=generate_bag_capacity(tab_obj,n);
+      best_combinaison=find_best_sum(tab,tab_obj,n,poids);
+      puts("=== Objets générés ===");
+      break;
+
+      case '2':
       puts("=== Variables ===");
-      printf("Nombre d'objets : %d\n", n);
-      printf("Poids : %d\n", poids);
+      printf("Nombre total d'objets : %d\n", n);
+      printf("Capacité du sac : %d\n", poids);
+      puts("=== Fin de l'affichage ===");
+      break;
+
+      case '3':
       if (tab != NULL) {
         // puts("=== Combinaisons ===");
         // print_tab(tab,n);
@@ -50,19 +64,9 @@ int main(int argc, char const *argv[]) {
           j++;
         }
       }
-
       puts("=== Fin de l'affichage ===");
-
       break;
 
-      case '2':
-      puts("=== Génération ===");
-      tab = generate_combinaisons(n);
-      tab_obj=generate_object_randomly(10,100,n);
-      poids=generate_bag_capacity(tab_obj,n);
-      best_combinaison=find_best_sum(tab,tab_obj,n,poids);
-      puts("=== Nombres générés ===");
-      break;
 
       case '0':
       puts("=== Sortie ===");
