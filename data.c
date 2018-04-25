@@ -73,7 +73,7 @@ int** version_prog_dynamique(Object* t, int b,int n){
     if(t[0].size > j){
       M[0][j] = 0;
     }else{
-      M[0][j] = t[0].size;
+      M[0][j] = t[0].cost;
     }
   }
 
@@ -93,7 +93,7 @@ void find_solution(int** tab,int n , int b, Object* o){
   int i = n-1;
   int j = b-1;
   while(tab[i][j] == tab[i][j-1]){
-    printf("test\n");
+    // printf("test\n");
     j--;
   }
   while (j > 0) {
@@ -101,7 +101,7 @@ void find_solution(int** tab,int n , int b, Object* o){
       i--;
     }
     j = j - o[i].size;
-    if(j > 0){
+    if(j >= 0){
       printf("O : size : %d cost : %d \n", o[i].size,o[i].cost);
     }
     i--;
