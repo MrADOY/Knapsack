@@ -43,7 +43,6 @@ int main(int argc, char const *argv[]) {
 
 
         switch(menu2){
-
           case '1':
           if (n>10) {
             n=10;
@@ -52,13 +51,20 @@ int main(int argc, char const *argv[]) {
           tab_obj=generate_object_randomly(10,100,n);
           poids=generate_bag_capacity(tab_obj,n);
           best_combinaison=find_best_sum(tab,tab_obj,(1 << n)-1,poids);
-          bold("\n\t\t=== Objets générés ===");
+          bold("\n\t\t=== Objets générés aléatoirement ===");
           menu2='0';
           break;
 
           case '2':
           if (n>10) {
             n=10;
+          }
+          tab_obj=generate_object_randomly(10,100,n);
+          poids=generate_bag_capacity(tab_obj,n);
+          tab = version_prog_dynamique(tab_obj,poids+1,n);
+          find_solution(tab,n,poids,tab_obj);
+
+          for (int i = 0; i < n; i++) {
           }
           bold("\n\t\t=== Objets générés dynamiquement ===");
           menu2='0';
