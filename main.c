@@ -59,9 +59,9 @@ int main(int argc, char const *argv[]) {
           break;
 
           case '2':
-          if (n>10) {
-            n=10;
-          }
+          // if (n>10) {
+          //   n=10;
+          // }
           tab_obj=generate_object_randomly(10,100,n);
           poids=generate_bag_capacity(tab_obj,n);
           tab = version_prog_dynamique(tab_obj,poids+1,n);
@@ -112,6 +112,8 @@ int main(int argc, char const *argv[]) {
           }
         }
         else {
+          total_poids_meilleur=0;
+          total_cout_meilleur=0;
           color(CYAN,"\t=== Objets dans le sac ===");
           printf("POIDS | PRIX\n");
           for (int i = 0; i < taille_sol; i++) {
@@ -153,6 +155,8 @@ int main(int argc, char const *argv[]) {
           }
         }
         else {
+          total_poids_meilleur=0;
+          total_cout_meilleur=0;
           color(CYAN,"\t=== Objets dans le sac ===");
           printf("POIDS | PRIX\n");
           for (int i = 0; i < taille_sol; i++) {
