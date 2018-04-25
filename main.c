@@ -8,10 +8,12 @@
 int main(int argc, char const *argv[]) {
   printf("Le fichier %s a été compilé le %s à %s\n", __FILE__, __DATE__, __TIME__);
   int sortie=0, n=0, poids=0, best_combinaison=0, total_poids_meilleur=0, total_cout_meilleur=0;
-  int total_poids=0, total_cout=0;
+  int total_poids=0, total_cout=0, dynamique=0;
+  int taille_sol = 0;
   char menu1;
   char menu2;
   int **tab = NULL;
+  int *tab_2 = NULL;
   Object *tab_obj = NULL;
   if (argc>1 && argv[1]) {
     n = atof(argv[1]);
@@ -51,6 +53,7 @@ int main(int argc, char const *argv[]) {
           tab_obj=generate_object_randomly(10,100,n);
           poids=generate_bag_capacity(tab_obj,n);
           best_combinaison=find_best_sum(tab,tab_obj,(1 << n)-1,poids);
+          dynamique=0;
           bold("\n\t\t=== Objets générés aléatoirement ===");
           menu2='0';
           break;
@@ -62,10 +65,8 @@ int main(int argc, char const *argv[]) {
           tab_obj=generate_object_randomly(10,100,n);
           poids=generate_bag_capacity(tab_obj,n);
           tab = version_prog_dynamique(tab_obj,poids+1,n);
-          find_solution(tab,n,poids,tab_obj);
-
-          for (int i = 0; i < n; i++) {
-          }
+          tab_2=find_solution(tab,n,poids,tab_obj,&taille_sol);
+          dynamique=1;
           bold("\n\t\t=== Objets générés dynamiquement ===");
           menu2='0';
           break;
@@ -97,23 +98,71 @@ int main(int argc, char const *argv[]) {
           total_cout+=tab_obj[i].cost;
           i++;
         }
-
-        int j=0;
-        total_poids_meilleur=0;
-        total_cout_meilleur=0;
-        color(CYAN,"\t=== Objets dans le sac ===");
-        printf("POIDS | PRIX\n");
-        while (tab[best_combinaison][j] != -1) {
-          printf("   %d | %d\n", tab_obj[tab[best_combinaison][j]].size, tab_obj[tab[best_combinaison][j]].cost);
-          total_poids_meilleur+=tab_obj[tab[best_combinaison][j]].size;
-          total_cout_meilleur+=tab_obj[tab[best_combinaison][j]].cost;
-          j++;
+        if (dynamique==0) {
+          int j=0;
+          total_poids_meilleur=0;
+          total_cout_meilleur=0;
+          color(CYAN,"\t=== Objets dans le sac ===");
+          printf("POIDS | PRIX\n");
+          while (tab[best_combinaison][j] != -1) {
+            printf("   %d | %d\n", tab_obj[tab[best_combinaison][j]].size, tab_obj[tab[best_combinaison][j]].cost);
+            total_poids_meilleur+=tab_obj[tab[best_combinaison][j]].size;
+            total_cout_meilleur+=tab_obj[tab[best_combinaison][j]].cost;
+            j++;
+          }
         }
+        else {
+          color(CYAN,"\t=== Objets dans le sac ===");
+          printf("POIDS | PRIX\n");
+          for (int i = 0; i < taille_sol; i++) {
+            printf("   %d | %d\n", tab_obj[tab_2[i]].size, tab_obj[tab_2[i]].cost);
+            total_poids_meilleur+=tab_obj[tab_2[i]].size;
+            total_cout_meilleur+=tab_obj[tab_2[i]].cost;
+          }
+        }
+
+
       }
       color(BLUE,"\t=== Retour au menu ===");
       break;
 
       case '3':
+      if (tab != NULL) {
+        int i=0;
+        total_poids=0;
+        total_cout=0;
+        color(CYAN,"\t=== Objets ===");
+        printf("POIDS | PRIX\n");
+        while (i < n) {
+          printf("   %d | %d\n", tab_obj[i].size, tab_obj[i].cost);
+          total_poids+=tab_obj[i].size;
+          total_cout+=tab_obj[i].cost;
+          i++;
+        }
+        if (dynamique==0) {
+          int j=0;
+          total_poids_meilleur=0;
+          total_cout_meilleur=0;
+          color(CYAN,"\t=== Objets dans le sac ===");
+          printf("POIDS | PRIX\n");
+          while (tab[best_combinaison][j] != -1) {
+            printf("   %d | %d\n", tab_obj[tab[best_combinaison][j]].size, tab_obj[tab[best_combinaison][j]].cost);
+            total_poids_meilleur+=tab_obj[tab[best_combinaison][j]].size;
+            total_cout_meilleur+=tab_obj[tab[best_combinaison][j]].cost;
+            j++;
+          }
+        }
+        else {
+          color(CYAN,"\t=== Objets dans le sac ===");
+          printf("POIDS | PRIX\n");
+          for (int i = 0; i < taille_sol; i++) {
+            printf("   %d | %d\n", tab_obj[tab_2[i]].size, tab_obj[tab_2[i]].cost);
+            total_poids_meilleur+=tab_obj[tab_2[i]].size;
+            total_cout_meilleur+=tab_obj[tab_2[i]].cost;
+          }
+        }
+      }
+
       color(YELLOW, "\t=== Variables ===");
       color(CYAN,"\t\t=== Objets ===");
       printf("\tNombre total d'objets : %d\n", n);

@@ -89,7 +89,7 @@ int** version_prog_dynamique(Object* t, int b,int n){
   return M;
 }
 
-int* find_solution(int** tab,int n , int b, Object* o){
+int* find_solution(int** tab,int n , int b, Object* o,int* taille){
   int* solution = (int*) malloc(n * sizeof(int));
   int t_solution = 0;
 
@@ -110,5 +110,6 @@ int* find_solution(int** tab,int n , int b, Object* o){
     }
     i--;
   }
+  *taille = t_solution;
   return solution;
 }
