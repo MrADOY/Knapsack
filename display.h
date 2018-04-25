@@ -20,5 +20,7 @@
 #define BOLDWHITE   "\033[1m\033[37m"      /* Bold White */
 
 void error(char *message);
+void bold(char *message);
+void color(char *color, char *message);
 
 #endif
