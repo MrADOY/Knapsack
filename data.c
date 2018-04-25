@@ -70,7 +70,7 @@ int** version_prog_dynamique(Object* t, int b,int n){
     M[i] = (int*) malloc(b * sizeof(int));
   }
   for (int j = 0; j < b; j++) {
-    if(t[j].size > j){
+    if(t[0].size > j){
       M[0][j] = 0;
     }else{
       M[0][j] = t[0].size;
@@ -90,13 +90,13 @@ int** version_prog_dynamique(Object* t, int b,int n){
 }
 
 void find_solution(int** tab,int n , int b, Object* o){
-  int i = n;
-  int j = b;
+  int i = n-1;
+  int j = b-1;
   while(tab[i][j] == tab[i][j-1]){
+    printf("test\n");
     j--;
   }
   while (j > 0) {
-
     while (i > 0 && (tab[i][j] == tab[i-1][j])) {
       i--;
     }
