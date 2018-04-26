@@ -3,7 +3,6 @@
 #include "utils.h"
 #include <stdlib.h>
 #include <stdio.h>
-#include <time.h>
 
 
 void swap(glou *t, int a, int b){
@@ -39,7 +38,7 @@ void quick_sort(glou *tab, int first, int last){
 
 
 int *glouglou(Object *t, int size, double max_bag){
-  srand(time(NULL));
+
 
   glou *tab;
   double currentbag=0;
@@ -66,5 +65,6 @@ int *glouglou(Object *t, int size, double max_bag){
       notfull = 0;
     }
   }
+  free(tab);
   return finalbag;
 }

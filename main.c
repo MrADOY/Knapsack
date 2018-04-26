@@ -1,14 +1,17 @@
 /* Knapsack problem */
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "data.h"
 #include "display.h"
 #include "utils.h"
+#include "glouglou.h"
 
 int main(int argc, char const *argv[]) {
   printf("Le fichier %s a été compilé le %s à %s\n", __FILE__, __DATE__, __TIME__);
+  srand(time(NULL));
   int sortie=0, n=0, poids=0, best_combinaison=0, total_poids_meilleur=0, total_cout_meilleur=0;
-  int total_poids=0, total_cout=0, dynamique=0;
+  int total_poids=0, total_cout=0, dynamique=0, glouton=0;
   int taille_sol = 0;
   char menu1;
   char menu2;
@@ -37,12 +40,12 @@ int main(int argc, char const *argv[]) {
       color(YELLOW,"\t=== Génération ===");
       color(GREEN,"\t\t=== Menu de génération===");
       do{
-        puts("\t1 - Générer les objets aléatoirement");
+        puts("\t1 - Générer les objets par énumération totale");
         puts("\t2 - Générer les objets dynamiquement");
+        puts("\t3 - Générer les objets pour le glouton");
         puts("\t0 - Quitter");
         bold("\nEntrez votre choix : ");
         scanf(" %c", &menu2);
-
 
         switch(menu2){
           case '1':
@@ -50,27 +53,32 @@ int main(int argc, char const *argv[]) {
             n=10;
           }
           tab = generate_combinaisons(n);
-          tab_obj=generate_object_randomly(10,100,n);
-          poids=generate_bag_capacity(tab_obj,n);
-          best_combinaison=find_best_sum(tab,tab_obj,(1 << n)-1,poids);
-          dynamique=0;
-          bold("\n\t\t=== Objets générés aléatoirement ===");
-          menu2='0';
+          tab_obj = generate_object_randomly(10,100,n);
+          poids = generate_bag_capacity(tab_obj,n);
+          best_combinaison = find_best_sum(tab,tab_obj,(1 << n)-1,poids);
+          dynamique = 0;
+          bold("\n\t\t=== Objets générés par énumération totale ===");
+          menu2 = '0';
           break;
 
           case '2':
-          // if (n>10) {
-          //   n=10;
-          // }
-          tab_obj=generate_object_randomly(10,100,n);
-          poids=generate_bag_capacity(tab_obj,n);
+          tab_obj = generate_object_randomly(10,100,n);
+          poids = generate_bag_capacity(tab_obj,n);
           tab = version_prog_dynamique(tab_obj,poids+1,n);
-          tab_2=find_solution(tab,n,poids,tab_obj,&taille_sol);
+          tab_2 = find_solution(tab,n,poids,tab_obj,&taille_sol);
           dynamique=1;
           bold("\n\t\t=== Objets générés dynamiquement ===");
           menu2='0';
           break;
 
+          case '3':
+          tab_obj=generate_object_randomly(10,100,n);
+          poids=generate_bag_capacity(tab_obj,n);
+          tab_2=glouglou(tab_obj, n, poids);
+          glouton=1;
+          bold("\n\t\t=== Objets générés par glouton ===");
+          menu2='0';
+          break;
 
           case '0':
           break;
@@ -79,7 +87,6 @@ int main(int argc, char const *argv[]) {
           error("Choix non reconnu !");
           break;
         }
-
       }while(menu2 != '0');
 
       color(BLUE,"\t=== Retour au menu principal ===");
@@ -87,103 +94,36 @@ int main(int argc, char const *argv[]) {
 
       case '2':
       if (tab != NULL) {
-        int i=0;
-        total_poids=0;
-        total_cout=0;
-        color(CYAN,"\t=== Objets ===");
-        printf("POIDS | PRIX\n");
-        while (i < n) {
-          printf("   %d | %d\n", tab_obj[i].size, tab_obj[i].cost);
-          total_poids+=tab_obj[i].size;
-          total_cout+=tab_obj[i].cost;
-          i++;
-        }
+        affiche_tab_obj(tab_obj, &total_poids, &total_cout, n);
         if (dynamique==0) {
-          int j=0;
-          total_poids_meilleur=0;
-          total_cout_meilleur=0;
-          color(CYAN,"\t=== Objets dans le sac ===");
-          printf("POIDS | PRIX\n");
-          while (tab[best_combinaison][j] != -1) {
-            printf("   %d | %d\n", tab_obj[tab[best_combinaison][j]].size, tab_obj[tab[best_combinaison][j]].cost);
-            total_poids_meilleur+=tab_obj[tab[best_combinaison][j]].size;
-            total_cout_meilleur+=tab_obj[tab[best_combinaison][j]].cost;
-            j++;
-          }
+          affiche_tab_total(tab, tab_obj, best_combinaison, &total_poids_meilleur, &total_cout_meilleur);
         }
         else {
-          total_poids_meilleur=0;
-          total_cout_meilleur=0;
-          color(CYAN,"\t=== Objets dans le sac ===");
-          printf("POIDS | PRIX\n");
-          for (int i = 0; i < taille_sol; i++) {
-            printf("   %d | %d\n", tab_obj[tab_2[i]].size, tab_obj[tab_2[i]].cost);
-            total_poids_meilleur+=tab_obj[tab_2[i]].size;
-            total_cout_meilleur+=tab_obj[tab_2[i]].cost;
-          }
+          affiche_tab_dynamique(tab_2, tab_obj, &total_poids_meilleur, &total_cout_meilleur, taille_sol);
         }
-
-
+      }
+      else {
+        affiche_tab_glouglou(tab_2, tab_obj, &total_poids_meilleur, &total_cout_meilleur);
       }
       color(BLUE,"\t=== Retour au menu ===");
       break;
 
       case '3':
       if (tab != NULL) {
-        int i=0;
-        total_poids=0;
-        total_cout=0;
-        color(CYAN,"\t=== Objets ===");
-        printf("POIDS | PRIX\n");
-        while (i < n) {
-          printf("   %d | %d\n", tab_obj[i].size, tab_obj[i].cost);
-          total_poids+=tab_obj[i].size;
-          total_cout+=tab_obj[i].cost;
-          i++;
-        }
+        affiche_tab_obj(tab_obj, &total_poids, &total_cout, n);
         if (dynamique==0) {
-          int j=0;
-          total_poids_meilleur=0;
-          total_cout_meilleur=0;
-          color(CYAN,"\t=== Objets dans le sac ===");
-          printf("POIDS | PRIX\n");
-          while (tab[best_combinaison][j] != -1) {
-            printf("   %d | %d\n", tab_obj[tab[best_combinaison][j]].size, tab_obj[tab[best_combinaison][j]].cost);
-            total_poids_meilleur+=tab_obj[tab[best_combinaison][j]].size;
-            total_cout_meilleur+=tab_obj[tab[best_combinaison][j]].cost;
-            j++;
-          }
+          affiche_tab_total(tab, tab_obj, best_combinaison, &total_poids_meilleur, &total_cout_meilleur);
         }
         else {
-          total_poids_meilleur=0;
-          total_cout_meilleur=0;
-          color(CYAN,"\t=== Objets dans le sac ===");
-          printf("POIDS | PRIX\n");
-          for (int i = 0; i < taille_sol; i++) {
-            printf("   %d | %d\n", tab_obj[tab_2[i]].size, tab_obj[tab_2[i]].cost);
-            total_poids_meilleur+=tab_obj[tab_2[i]].size;
-            total_cout_meilleur+=tab_obj[tab_2[i]].cost;
-          }
+          affiche_tab_dynamique(tab_2, tab_obj, &total_poids_meilleur, &total_cout_meilleur, taille_sol);
         }
+      }
+      else {
+        affiche_tab_glouglou(tab_2, tab_obj, &total_poids_meilleur, &total_cout_meilleur);
       }
 
-      color(YELLOW, "\t=== Variables ===");
-      color(CYAN,"\t\t=== Objets ===");
-      printf("\tNombre total d'objets : %d\n", n);
-      if (total_cout>0) {
-        printf("\tCoût total des objets : %d\n", total_poids);
-        printf("\tPoids total des objets : %d\n", total_cout);
-      }
-      if (total_poids_meilleur>0) {
-        color(CYAN,"\t\t=== Sac ===");
-        if (poids>0) {
-          printf("\tCapacité du sac : %d\n", poids);
-          printf("\tCapacité restant dans le sac : %d\n", poids-total_poids_meilleur);
-        }
-        printf("\tPoids total des objets dans le sac : %d\n",  total_poids_meilleur);
-        printf("\tCoût total des objets dans le sac : %d\n", total_cout_meilleur);
-      }
-      color(BLUE,"\t=== Retour au menu ===");
+
+      affiche_var(n, poids, total_cout, total_poids, total_poids_meilleur, total_cout_meilleur);
       break;
 
 
@@ -197,6 +137,5 @@ int main(int argc, char const *argv[]) {
       break;
     }
   }
-
   return EXIT_SUCCESS;
 }

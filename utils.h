@@ -1,6 +1,8 @@
 #ifndef __UTILS_H__
 #define __UTILS_H__
 
+#include "glouglou.h"
+
 /*
 * Generate all the combinaisons for pow(2,n) values without
 * repetitions

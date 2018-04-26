@@ -22,5 +22,10 @@
 void error(char *message);
 void bold(char *message);
 void color(char *color, char *message);
+void affiche_tab_total(int **tab_combinaisons, Object *tab_obj, int best_combinaison, int *total_poids_meilleur, int *total_cout_meilleur);
+void affiche_tab_obj(Object *tab_obj, int *total_poids, int *total_cout, int nb_objets_total);
+void affiche_tab_dynamique(int *tab, Object *tab_obj, int *total_poids_meilleur, int *total_cout_meilleur, int taille_sol);
+void affiche_var(int n, int poids, int total_cout, int total_poids, int total_poids_meilleur, int total_cout_meilleur);
+void affiche_tab_glouglou(int *tab, Object *tab_obj, int *total_poids_meilleur, int *total_cout_meilleur);
 
 #endif
