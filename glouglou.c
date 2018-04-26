@@ -1,6 +1,7 @@
 #include "glouglou.h"
 #include "data.h"
 #include "utils.h"
+#include "display.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -45,6 +46,8 @@ int *glouglou(Object *t, int size, double max_bag){
   int *finalbag;
   int notfull = 1;
   int i = 0;
+  double delta = 0;
+  int borne_inf = 0, borne_sup = 0;
 
   tab = malloc(sizeof (glou) * size);
   finalbag = malloc(sizeof (int)*size);
@@ -65,6 +68,13 @@ int *glouglou(Object *t, int size, double max_bag){
       notfull = 0;
     }
   }
+  delta = max_bag - (currentbag-t[tab[i].index].size);
+  delta = (double)delta / t[tab[i].index].size;
+  delta = (double)t[tab[i].index].cost * delta;
+
+  affiche_tab_glouglou(finalbag, t, &borne_sup, &borne_inf);
+  borne_sup = borne_inf + delta;
+  printf("borne_inf:  %d\nborne_sup:  %d\n", borne_inf, borne_sup);
   free(tab);
   return finalbag;
 }
