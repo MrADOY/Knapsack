@@ -34,6 +34,6 @@ int find_best_sum(int** tab, Object* t, int size, int max_size);
 
 int** version_prog_dynamique(Object* t, int b,int n);
 
-int* find_solution(int** tab,int n , int b, Object* o);
+int* find_solution(int** tab,int n , int b, Object* o, int* taille);
 
 #endif
