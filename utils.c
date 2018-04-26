@@ -1,7 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-
+#include "glouglou.h"
+#include "utils.h"
 /*
 * Print a int** tab
 */
@@ -22,11 +23,11 @@ void print_tab(int** tab, int n){
 * Sort with tri fusion
 */
 
-void tri_fusion(int* tab,int n){
+void tri_fusion(glou** tab,int n){
     tri_fusion2(tab,0,n - 1);
 }
 
-void tri_fusion2(int* tab,int p, int r){
+void tri_fusion2(glou** tab,int p, int r){
     int quotient;
 
     if(p < r){
@@ -37,38 +38,32 @@ void tri_fusion2(int* tab,int p, int r){
     }
 }
 
-void fusionner(int* tab, int p , int q , int r){
+void fusionner(glou** tab, int p , int q , int r){
   int n1 , n2;
 
   n1 = q - p + 1;
   n2 = r - q;
 
-  int Left[n1];
-  int Right[n2];
-
+  glou* Left[n1];
+  glou* Right[n2];
   for (int i = 0; i < n1; i++) {
     Left[i] = tab[p + i];
   }
-
   for (int j = 0; j < n2; j++) {
     Right[j] = tab[q + j + 1];
   }
-
-  Left[n1] = MAX + 1;
-  Right[n2] = MAX + 1;
-
+  Left[n1]->rapport = RAND_MAX+1;
+  Right[n2]->rapport = RAND_MAX+1;
   int i = 0 ;
   int j = 0 ;
-
   for(int k = p ; k <= r; k++){
-    if(Left[i] <= Right[j]){
+    if(Left[i]->rapport >= Right[j]->rapport){
       tab[k] = Left[i];
       i++;
     }else{
       tab[k] = Right[j];
       j++;
     }
-
   }
 
 }
