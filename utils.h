@@ -12,10 +12,10 @@ int** generate_combinaisons(int n);
 */
 void print_tab(int** tab, int n);
 
-void tri_fusion(glou** tab,int n);
+void tri_fusion(glou* tab,int n);
 
-void fusionner(glou** tab, int p , int q , int r);
+void fusionner(glou* tab, int p , int q , int r);
 
-void tri_fusion2(glou** tab,int p, int r);
+void tri_fusion2(glou* tab,int p, int r);
 
 #endif
