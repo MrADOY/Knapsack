@@ -10,9 +10,7 @@
 int main(int argc, char const *argv[]) {
   printf("Le fichier %s a été compilé le %s à %s\n", __FILE__, __DATE__, __TIME__);
   srand(time(NULL));
-  int sortie=0, n=0, poids=0, best_combinaison=0, total_poids_meilleur=0, total_cout_meilleur=0;
-  int total_poids=0, total_cout=0, dynamique=0, glouton=0;
-  int taille_sol = 0;
+  int sortie=0, n=0, poids=0, best_combinaison=0, total_poids_meilleur=0, total_cout_meilleur=0, total_poids=0, total_cout=0, dynamique=0, taille_sol = 0, n_old=0;
   char menu1;
   char menu2;
   int **tab = NULL;
@@ -29,8 +27,13 @@ int main(int argc, char const *argv[]) {
     puts("");
     color(GREEN,"\t=== Menu ===");
     puts("1 - Générer les objets");
-    puts("2 - Voir les tableaux");
-    puts("3 - Voir les variables");
+    if (tab_obj != NULL) {
+      puts("2 - Voir les tableaux");
+      puts("3 - Voir les variables");
+    }
+    if (n_old>n) {
+      puts("4 - Remettre le nombre d'objets à sa valeur initiale");
+    }
     puts("0 - Quitter");
     bold("\nEntrez votre choix : ");
     scanf(" %c",&menu1);
@@ -41,8 +44,8 @@ int main(int argc, char const *argv[]) {
       color(GREEN,"\t\t=== Menu de génération===");
       do{
         puts("\t1 - Générer les objets par énumération totale");
-        puts("\t2 - Générer les objets dynamiquement");
-        puts("\t3 - Générer les objets pour le glouton");
+        puts("\t2 - Générer les objets dynamiquement par matrice");
+        puts("\t3 - Générer les objets par glouton");
         puts("\t0 - Quitter");
         bold("\nEntrez votre choix : ");
         scanf(" %c", &menu2);
@@ -50,6 +53,8 @@ int main(int argc, char const *argv[]) {
         switch(menu2){
           case '1':
           if (n>10) {
+            color(BOLDRED,"\t=== Limitation à 10 objets dans ce mode ===");
+            n_old=n;
             n=10;
           }
           tab = generate_combinaisons(n);
@@ -57,17 +62,22 @@ int main(int argc, char const *argv[]) {
           poids = generate_bag_capacity(tab_obj,n);
           best_combinaison = find_best_sum(tab,tab_obj,(1 << n)-1,poids);
           dynamique = 0;
-          bold("\n\t\t=== Objets générés par énumération totale ===");
+          bold("\n\t\t=== Objets générés par énumération totale ===\n");
           menu2 = '0';
           break;
 
           case '2':
+          if (n>5000) {
+            color(BOLDRED,"\t=== Limitation à 5000 objets dans ce mode ===");
+            n_old=n;
+            n=5000;
+          }
           tab_obj = generate_object_randomly(10,100,n);
           poids = generate_bag_capacity(tab_obj,n);
           tab = version_prog_dynamique(tab_obj,poids+1,n);
           tab_2 = find_solution(tab,n,poids,tab_obj,&taille_sol);
           dynamique=1;
-          bold("\n\t\t=== Objets générés dynamiquement ===");
+          bold("\n\t\t=== Objets générés dynamiquement par matrice===\n");
           menu2='0';
           break;
 
@@ -75,8 +85,7 @@ int main(int argc, char const *argv[]) {
           tab_obj=generate_object_randomly(10,100,n);
           poids=generate_bag_capacity(tab_obj,n);
           tab_2=glouglou(tab_obj, n, poids);
-          glouton=1;
-          bold("\n\t\t=== Objets générés par glouton ===");
+          bold("\n\t\t=== Objets générés par glouton ===\n");
           menu2='0';
           break;
 
@@ -93,8 +102,8 @@ int main(int argc, char const *argv[]) {
       break;
 
       case '2':
+      affiche_tab_obj(tab_obj, &total_poids, &total_cout, n);
       if (tab != NULL) {
-        affiche_tab_obj(tab_obj, &total_poids, &total_cout, n);
         if (dynamique==0) {
           affiche_tab_total(tab, tab_obj, best_combinaison, &total_poids_meilleur, &total_cout_meilleur);
         }
@@ -109,23 +118,28 @@ int main(int argc, char const *argv[]) {
       break;
 
       case '3':
-      if (tab != NULL) {
-        affiche_tab_obj(tab_obj, &total_poids, &total_cout, n);
-        if (dynamique==0) {
-          affiche_tab_total(tab, tab_obj, best_combinaison, &total_poids_meilleur, &total_cout_meilleur);
-        }
-        else {
-          affiche_tab_dynamique(tab_2, tab_obj, &total_poids_meilleur, &total_cout_meilleur, taille_sol);
-        }
-      }
-      else {
-        affiche_tab_glouglou(tab_2, tab_obj, &total_poids_meilleur, &total_cout_meilleur);
-      }
-
-
+      // affiche_tab_obj(tab_obj, &total_poids, &total_cout, n);
+      // if (tab != NULL) {
+      //   if (dynamique==0) {
+      //     affiche_tab_total(tab, tab_obj, best_combinaison, &total_poids_meilleur, &total_cout_meilleur);
+      //   }
+      //   else {
+      //     affiche_tab_dynamique(tab_2, tab_obj, &total_poids_meilleur, &total_cout_meilleur, taille_sol);
+      //   }
+      // }
+      // else {
+      //   affiche_tab_glouglou(tab_2, tab_obj, &total_poids_meilleur, &total_cout_meilleur);
+      // }
       affiche_var(n, poids, total_cout, total_poids, total_poids_meilleur, total_cout_meilleur);
       break;
 
+      case '4':
+      color(YELLOW,"\t=== Réinitialisation ===");
+      tab = NULL;
+      tab_2 = NULL;
+      tab_obj = NULL;
+      n=n_old;
+      break;
 
       case '0':
       color(YELLOW,"\t=== Sortie ===");
