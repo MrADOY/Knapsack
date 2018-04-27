@@ -74,7 +74,7 @@ int *glouglou(Object *t, int size, double max_bag){
 
   affiche_tab_glouglou(finalbag, t, &borne_sup, &borne_inf);
   borne_sup = borne_inf + delta;
-  printf("borne_inf:  %d\nborne_sup:  %d\n", borne_inf, borne_sup);
+  printf("borne_inf:  %d€\nborne_sup:  %d€\n", borne_inf, borne_sup);
   free(tab);
   return finalbag;
 }
