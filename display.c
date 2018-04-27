@@ -81,8 +81,8 @@ void affiche_var(int n, int poids, int total_cout, int total_poids, int total_po
   color(CYAN,"\t\t=== Objets ===");
   printf("\tNombre total d'objets : %d\n", n);
   if (total_cout>0) {
-    printf("\tPoids total des objets : %d kg\n", total_cout);
-    printf("\tCoût total des objets : %d €\n", total_poids);
+    printf("\tPoids total des objets : %d kg\n", total_poids);
+    printf("\tCoût total des objets : %d €\n", total_cout);
   }
   if (total_poids_meilleur>0) {
     color(CYAN,"\t\t=== Sac ===");
