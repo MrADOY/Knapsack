@@ -20,4 +20,8 @@ void fusionner(glou* tab, int p , int q , int r);
 
 void tri_fusion2(glou* tab,int p, int r);
 
+int greater_than_weight(int* index,int s,Object* o,int weight);
+
+int** generate_combinaisons_intelligente(int n,Object* o,int poids);
+
 #endif
