@@ -10,7 +10,7 @@
 int main(int argc, char const *argv[]) {
   printf("Le fichier %s a été compilé le %s à %s\n", __FILE__, __DATE__, __TIME__);
   srand(time(NULL));
-  int sortie=0, n=0, poids=0, best_combinaison=0, total_poids_meilleur=0, total_cout_meilleur=0, total_poids=0, total_cout=0, dynamique=0, taille_sol = 0, n_old=0;
+  int sortie=0, n=0, poids=0, best_combinaison=0, total_poids_meilleur=0, total_cout_meilleur=0, total_poids=0, total_cout=0, dynamique=0, taille_sol = 0, n_old=0, borne_inf=0, borne_sup=0;
   char menu1;
   char menu2;
   int **tab = NULL;
@@ -44,8 +44,9 @@ int main(int argc, char const *argv[]) {
       color(GREEN,"\t\t=== Menu de génération===");
       do{
         puts("\t1 - Générer les objets par énumération totale");
-        puts("\t2 - Générer les objets dynamiquement par matrice");
-        puts("\t3 - Générer les objets par glouton");
+        puts("\t2 - Générer les objets par énumération intelligente");
+        puts("\t3 - Générer les objets par dynamique dense");
+        puts("\t4 - Générer les objets par glouton");
         puts("\t0 - Quitter");
         bold("\nEntrez votre choix : ");
         scanf(" %c", &menu2);
@@ -67,6 +68,18 @@ int main(int argc, char const *argv[]) {
           break;
 
           case '2':
+          if (n>10) {
+            color(BOLDRED,"\t=== Limitation à 10 objets dans ce mode ===");
+            n_old=n;
+            n=10;
+          }
+          tab_obj = generate_object_randomly(10,100,n);
+          poids = generate_bag_capacity(tab_obj,n);
+          tab = generate_combinaisons_intelligente(n,tab_obj,poids);
+          best_combinaison = find_best_sum(tab,tab_obj,(1 << n)-1,poids);
+          break;
+
+          case '3':
           if (n>5000) {
             color(BOLDRED,"\t=== Limitation à 5000 objets dans ce mode ===");
             n_old=n;
@@ -77,14 +90,14 @@ int main(int argc, char const *argv[]) {
           tab = version_prog_dynamique(tab_obj,poids+1,n);
           tab_2 = find_solution(tab,n,poids,tab_obj,&taille_sol);
           dynamique=1;
-          bold("\n\t\t=== Objets générés dynamiquement par matrice===\n");
+          bold("\n\t\t=== Objets générés par dynamique dense===\n");
           menu2='0';
           break;
 
-          case '3':
+          case '4':
           tab_obj=generate_object_randomly(10,100,n);
           poids=generate_bag_capacity(tab_obj,n);
-          tab_2=glouglou(tab_obj, n, poids);
+          tab_2=glouglou(tab_obj, n, poids, &borne_sup, &borne_inf);
           bold("\n\t\t=== Objets générés par glouton ===\n");
           menu2='0';
           break;
@@ -102,35 +115,35 @@ int main(int argc, char const *argv[]) {
       break;
 
       case '2':
-      affiche_tab_obj(tab_obj, &total_poids, &total_cout, n);
+      affiche_tab_obj(tab_obj, n);
       if (tab != NULL) {
         if (dynamique==0) {
-          affiche_tab_total(tab, tab_obj, best_combinaison, &total_poids_meilleur, &total_cout_meilleur);
+          affiche_tab_total(tab, tab_obj, best_combinaison);
         }
         else {
-          affiche_tab_dynamique(tab_2, tab_obj, &total_poids_meilleur, &total_cout_meilleur, taille_sol);
+          affiche_tab_dynamique(tab_2, tab_obj, taille_sol);
         }
       }
       else {
-        affiche_tab_glouglou(tab_2, tab_obj, &total_poids_meilleur, &total_cout_meilleur);
+        affiche_tab_glouglou(tab_2, tab_obj);
       }
       color(BLUE,"\t=== Retour au menu ===");
       break;
 
       case '3':
-      // affiche_tab_obj(tab_obj, &total_poids, &total_cout, n);
-      // if (tab != NULL) {
-      //   if (dynamique==0) {
-      //     affiche_tab_total(tab, tab_obj, best_combinaison, &total_poids_meilleur, &total_cout_meilleur);
-      //   }
-      //   else {
-      //     affiche_tab_dynamique(tab_2, tab_obj, &total_poids_meilleur, &total_cout_meilleur, taille_sol);
-      //   }
-      // }
-      // else {
-      //   affiche_tab_glouglou(tab_2, tab_obj, &total_poids_meilleur, &total_cout_meilleur);
-      // }
-      affiche_var(n, poids, total_cout, total_poids, total_poids_meilleur, total_cout_meilleur);
+      calcul_tab_obj(tab_obj, &total_poids, &total_cout, n);
+      if (tab != NULL) {
+        if (dynamique==0) {
+          calcul_tab_total(tab, tab_obj, best_combinaison, &total_poids_meilleur, &total_cout_meilleur);
+        }
+        else {
+          calcul_tab_dynamique(tab_2, tab_obj, &total_poids_meilleur, &total_cout_meilleur, taille_sol);
+        }
+      }
+      else {
+        calcul_tab_glouglou(tab_2, tab_obj, &total_poids_meilleur, &total_cout_meilleur);
+      }
+      affiche_var(n, poids, total_cout, total_poids, total_poids_meilleur, total_cout_meilleur, borne_inf, borne_sup);
       break;
 
       case '4':

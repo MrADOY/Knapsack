@@ -38,7 +38,7 @@ void quick_sort(glou *tab, int first, int last){
 
 
 
-int *glouglou(Object *t, int size, double max_bag){
+int *glouglou(Object *t, int size, double max_bag, int *borne_plus, int *borne_moins){
 
 
   glou *tab;
@@ -72,9 +72,9 @@ int *glouglou(Object *t, int size, double max_bag){
   delta = (double)delta / t[tab[i].index].size;
   delta = (double)t[tab[i].index].cost * delta;
 
-  affiche_tab_glouglou(finalbag, t, &borne_sup, &borne_inf);
+  // affiche_tab_glouglou(finalbag, t, &borne_sup, &borne_inf);
   borne_sup = borne_inf + delta;
-  printf("borne_inf:  %d\nborne_sup:  %d\n", borne_inf, borne_sup);
+  // printf("borne_inf:  %d\nborne_sup:  %d\n", borne_inf, borne_sup);
   free(tab);
   return finalbag;
 }

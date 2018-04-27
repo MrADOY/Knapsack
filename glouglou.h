@@ -10,6 +10,6 @@ typedef struct {
 
 }glou;
 
-int *glouglou(Object *t, int size, double max_bag);
+int *glouglou(Object *t, int size, double max_bag, int *borne_plus, int *borne_moins);
 
 #endif
