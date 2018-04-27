@@ -72,21 +72,21 @@ int main(int argc, char const *argv[]) {
           poids = generate_bag_capacity(tab_obj,n);
           best_combinaison = find_best_sum(tab,tab_obj,(1 << n)-1,poids);
           dynamique = 0;
-          bold("\n\t\t=== Objets générés par énumération totale ===\n");
+          bold("\n\t\t=== Simulation réalisée par énumération totale ===\n");
           menu2 = '0';
           break;
 
           case '2':
-          if (n>10) {
-            color(BOLDRED,"\t=== Limitation à 10 objets dans ce mode ===");
+          if (n>20) {
+            color(BOLDRED,"\t=== Limitation à 20 objets dans ce mode ===");
             n_old=n;
-            n=10;
+            n=20;
           }
           poids = generate_bag_capacity(tab_obj,n);
           tab = generate_combinaisons_intelligente(n,tab_obj,poids);
           best_combinaison = find_best_sum(tab,tab_obj,(1 << n)-1,poids);
           dynamique = 0;
-          bold("\n\t\t=== Objets générés par énumération intellignente ===\n");
+          bold("\n\t\t=== Simulation réalisée par énumération intellignente ===\n");
           menu2 = '0';
           break;
 
@@ -100,14 +100,14 @@ int main(int argc, char const *argv[]) {
           tab = version_prog_dynamique(tab_obj,poids+1,n);
           tab_2 = find_solution(tab,n,poids,tab_obj,&taille_sol);
           dynamique=1;
-          bold("\n\t\t=== Objets générés par dynamique dense===\n");
+          bold("\n\t\t=== Simulation réalisée par dynamique dense===\n");
           menu2='0';
           break;
 
           case '4':
           poids=generate_bag_capacity(tab_obj,n);
           tab_2=glouglou(tab_obj, n, poids, &borne_sup, &borne_inf);
-          bold("\n\t\t=== Objets générés par glouton ===\n");
+          bold("\n\t\t=== Simulation réalisée par glouton ===\n");
           menu2='0';
           break;
 
