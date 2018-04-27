@@ -23,16 +23,20 @@ int main(int argc, char const *argv[]) {
     error("Utilisation : ./main <Nombre d'objets> !");
     exit(1);
   }
+
   while(sortie==0) {
     puts("");
     color(GREEN,"\t=== Menu ===");
     puts("1 - Générer les objets");
     if (tab_obj != NULL) {
-      puts("2 - Voir les tableaux");
-      puts("3 - Voir les variables");
+      puts("2 - Simuler");
+      if (tab != NULL || tab_2 != NULL) {
+        puts("3 - Voir les tableaux");
+        puts("4 - Voir les variables");
+      }
     }
     if (n_old>n) {
-      puts("4 - Remettre le nombre d'objets à sa valeur initiale");
+      puts("5 - Remettre le nombre d'objets à sa valeur initiale");
     }
     puts("0 - Quitter");
     bold("\nEntrez votre choix : ");
@@ -41,12 +45,18 @@ int main(int argc, char const *argv[]) {
     switch(menu1) {
       case '1':
       color(YELLOW,"\t=== Génération ===");
-      color(GREEN,"\t\t=== Menu de génération===");
+      tab_obj = generate_object_randomly(10,100,n);
+      bold("\n\t\t=== Objets générés ===\n");
+      color(BLUE,"\t=== Retour au menu principal ===");
+      break;
+
+      case '2':
+      color(GREEN,"\t\t=== Menu de simulation ===");
       do{
-        puts("\t1 - Générer les objets par énumération totale");
-        puts("\t2 - Générer les objets par énumération intelligente");
-        puts("\t3 - Générer les objets par dynamique dense");
-        puts("\t4 - Générer les objets par glouton");
+        puts("\t1 - Simuler par énumération totale");
+        puts("\t2 - Simuler par énumération intelligente");
+        puts("\t3 - Simuler par dynamique dense");
+        puts("\t4 - Simuler par glouton");
         puts("\t0 - Quitter");
         bold("\nEntrez votre choix : ");
         scanf(" %c", &menu2);
@@ -59,7 +69,6 @@ int main(int argc, char const *argv[]) {
             n=10;
           }
           tab = generate_combinaisons(n);
-          tab_obj = generate_object_randomly(10,100,n);
           poids = generate_bag_capacity(tab_obj,n);
           best_combinaison = find_best_sum(tab,tab_obj,(1 << n)-1,poids);
           dynamique = 0;
@@ -73,10 +82,12 @@ int main(int argc, char const *argv[]) {
             n_old=n;
             n=10;
           }
-          tab_obj = generate_object_randomly(10,100,n);
           poids = generate_bag_capacity(tab_obj,n);
           tab = generate_combinaisons_intelligente(n,tab_obj,poids);
           best_combinaison = find_best_sum(tab,tab_obj,(1 << n)-1,poids);
+          dynamique = 0;
+          bold("\n\t\t=== Objets générés par énumération intellignente ===\n");
+          menu2 = '0';
           break;
 
           case '3':
@@ -85,7 +96,6 @@ int main(int argc, char const *argv[]) {
             n_old=n;
             n=5000;
           }
-          tab_obj = generate_object_randomly(10,100,n);
           poids = generate_bag_capacity(tab_obj,n);
           tab = version_prog_dynamique(tab_obj,poids+1,n);
           tab_2 = find_solution(tab,n,poids,tab_obj,&taille_sol);
@@ -95,7 +105,6 @@ int main(int argc, char const *argv[]) {
           break;
 
           case '4':
-          tab_obj=generate_object_randomly(10,100,n);
           poids=generate_bag_capacity(tab_obj,n);
           tab_2=glouglou(tab_obj, n, poids, &borne_sup, &borne_inf);
           bold("\n\t\t=== Objets générés par glouton ===\n");
@@ -114,7 +123,7 @@ int main(int argc, char const *argv[]) {
       color(BLUE,"\t=== Retour au menu principal ===");
       break;
 
-      case '2':
+      case '3':
       affiche_tab_obj(tab_obj, n);
       if (tab != NULL) {
         if (dynamique==0) {
@@ -130,7 +139,7 @@ int main(int argc, char const *argv[]) {
       color(BLUE,"\t=== Retour au menu ===");
       break;
 
-      case '3':
+      case '4':
       calcul_tab_obj(tab_obj, &total_poids, &total_cout, n);
       if (tab != NULL) {
         if (dynamique==0) {
@@ -146,7 +155,7 @@ int main(int argc, char const *argv[]) {
       affiche_var(n, poids, total_cout, total_poids, total_poids_meilleur, total_cout_meilleur, borne_inf, borne_sup);
       break;
 
-      case '4':
+      case '5':
       color(YELLOW,"\t=== Réinitialisation ===");
       tab = NULL;
       tab_2 = NULL;

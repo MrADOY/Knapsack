@@ -104,7 +104,7 @@ void calcul_tab_glouglou(int *tab, Object *tab_obj, int *total_poids_meilleur, i
 
 void affiche_var(int n, int poids, int total_cout, int total_poids, int total_poids_meilleur, int total_cout_meilleur, int borne_inf, int borne_sup) {
   color(YELLOW, "\t=== Variables ===");
-  if (borne_inf!=0 && borne_sup!=0) {
+  if (borne_sup!=0) {
     printf("\tBorne inférieure : %d\n", borne_inf);
     printf("\tBorne supérieure : %d\n", borne_sup);
   }

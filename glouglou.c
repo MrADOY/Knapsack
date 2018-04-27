@@ -7,10 +7,10 @@
 
 
 void swap(glou *t, int a, int b){
- glou tmp;
- tmp = t[a];
- t[a] = t[b];
- t[b] = tmp;
+  glou tmp;
+  tmp = t[a];
+  t[a] = t[b];
+  t[b] = tmp;
 }
 
 int partition(glou* tab, int first, int last, int pivot){
@@ -38,7 +38,7 @@ void quick_sort(glou *tab, int first, int last){
 
 
 
-int *glouglou(Object *t, int size, double max_bag, int *borne_plus, int *borne_moins){
+int *glouglou(Object *t, int size, double max_bag, int* borne_plus, int* borne_moins){
 
 
   glou *tab;
@@ -48,7 +48,6 @@ int *glouglou(Object *t, int size, double max_bag, int *borne_plus, int *borne_m
   int i = 0;
   double delta = 0;
   int borne_inf = 0, borne_sup = 0;
-
   tab = malloc(sizeof (glou) * size);
   finalbag = malloc(sizeof (int)*size);
 
@@ -74,7 +73,9 @@ int *glouglou(Object *t, int size, double max_bag, int *borne_plus, int *borne_m
 
   // affiche_tab_glouglou(finalbag, t, &borne_sup, &borne_inf);
   borne_sup = borne_inf + delta;
-  // printf("borne_inf:  %d\nborne_sup:  %d\n", borne_inf, borne_sup);
+  *borne_plus=borne_sup;
+  *borne_moins=borne_inf;
+  
   free(tab);
   return finalbag;
 }
